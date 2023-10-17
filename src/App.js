@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import React, { useState,  useEffect } from 'react';
 import './App.css';
-
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import UploadPage from './UploadPage';
 function App() {
+
+  useEffect(() => {
+    document.body.style.backgroundColor = 'rgb(54, 54, 54)';
+  }, []);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+
+  const handleVideoSelection = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setSelectedVideo(URL.createObjectURL(file));
+    } else {
+      setSelectedVideo(null);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UploadPage></UploadPage>
+    
   );
 }
 
