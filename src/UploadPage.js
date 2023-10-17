@@ -13,6 +13,13 @@ const UploadPage = () => {
 
     const [selectedVideo, setSelectedVideo] = useState(false);
 
+    const [uploadObject, setUploadObject] = useState({
+        youTubeInfo: {title:"",description:"",tags:""},
+        facebookInfo: {title:"",description:"",tags:""},
+        instaInfo: {title:"",description:"",tags:""}
+    })
+    const [activeTab, setActiveTab] = useState('facebook');
+
     const handleVideoSelection = (e) => {
         const file = e.target.files[0];
 
@@ -22,6 +29,77 @@ const UploadPage = () => {
             setSelectedVideo(null);
         }
     };
+
+    const inputEntry = (event) => {
+       
+        let tempObject = {...uploadObject};
+        if(event.target.name === "youtubeTitle")
+        {
+            
+          tempObject.youTubeInfo.title = event.target.value;
+          
+        }
+        else if(event.target.name === "youtubeDesc")
+        {
+            
+          tempObject.youTubeInfo.description = event.target.value;
+          
+        }
+        else if(event.target.name === "youtubeTags")
+        {
+            
+          tempObject.youTubeInfo.tags = event.target.value;
+          
+        }
+
+        else if(event.target.name === "facebookTitle")
+        {
+            
+          tempObject.facebookInfo.title = event.target.value;
+          
+        }
+        else if(event.target.name === "facebookDesc")
+        {
+            
+          tempObject.facebookInfo.description = event.target.value;
+          
+        }
+        else if(event.target.name === "facebookTags")
+        {
+            
+          tempObject.facebookInfo.tags = event.target.value;
+          
+        }
+
+        else if(event.target.name === "instagramTitle")
+        {
+            
+          tempObject.instaInfo.title = event.target.value;
+          
+        }
+        else if(event.target.name === "instagramDesc")
+        {
+            
+          tempObject.instaInfo.description = event.target.value;
+          
+        }
+        else if(event.target.name === "instagramTags")
+        {
+            
+          tempObject.instaInfo.tags = event.target.value;
+          
+        }
+        console.log(event.target.name);
+        console.log(tempObject);
+        setUploadObject(tempObject);
+    };
+
+    const handleTabSelect = (key) => {
+        setActiveTab(key);
+        console.log(key);
+      };
+
+
     return (
         <Container>
             <Row>
@@ -91,31 +169,60 @@ const UploadPage = () => {
                         defaultActiveKey="profile"
                         id="uncontrolled-tab-example"
                         className="mb-3" data-bs-theme="dark"
+                        onSelect={(key) => handleTabSelect(key)}
                     >
-                        <Tab eventKey="home" title="YouTube" disabled={selectedVideo}>
+                        <Tab eventKey="youtube" title="YouTube" disabled={selectedVideo}>
                             <Row>
                                 <Form data-bs-theme="dark">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Title</Form.Label>
-                                        <Form.Control type="text" placeholder="Title" />
+                                        <Form.Control name="youtubeTitle" type="text" placeholder="Title" value={uploadObject.youTubeInfo.title} onChange={inputEntry}/>
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                         <Form.Label>Description</Form.Label>
-                                        <Form.Control as="textarea" rows={3} />
+                                        <Form.Control name="youtubeDesc" as="textarea" rows={3} value={uploadObject.youTubeInfo.description} onChange={inputEntry}/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Tags</Form.Label>
-                                        <Form.Control type="text" placeholder="#tags" />
+                                        <Form.Control name="youtubeTags" type="text" placeholder="#tags" value={uploadObject.youTubeInfo.tags} onChange={inputEntry}/>
                                     </Form.Group>
                                 </Form>
                             </Row>
                         </Tab>
-                        <Tab eventKey="profile" title="FaceBook" disabled={selectedVideo}>
-                            Tab content for Profile
+                        <Tab eventKey="facebook" title="FaceBook" disabled={selectedVideo}>
+                        <Form data-bs-theme="dark">
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Title</Form.Label>
+                                        <Form.Control name="facebookTitle" type="text" placeholder="Title" value={uploadObject.facebookInfo.title} onChange={inputEntry}/>
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                        <Form.Label>Description</Form.Label>
+                                        <Form.Control name="facebookDesc" as="textarea" rows={3} value={uploadObject.facebookInfo.description} onChange={inputEntry}/>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Tags</Form.Label>
+                                        <Form.Control name="facebookTags" type="text" placeholder="#tags" value={uploadObject.facebookInfo.tags} onChange={inputEntry}/>
+                                    </Form.Group>
+                                </Form>
                         </Tab>
-                        <Tab eventKey="contact" title="Instagram" disabled={selectedVideo}>
-                            Tab content for Contact
+                        <Tab eventKey="instagram" title="Instagram" disabled={selectedVideo}>
+                        <Form data-bs-theme="dark">
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Title</Form.Label>
+                                        <Form.Control name="instagramTitle" type="text" placeholder="Title" value={uploadObject.instaInfo.title} onChange={inputEntry}/>
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                        <Form.Label>Description</Form.Label>
+                                        <Form.Control name="instagramDesc" as="textarea" rows={3} value={uploadObject.instaInfo.description} onChange={inputEntry}/>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Tags</Form.Label>
+                                        <Form.Control name="instagramTags" type="text" placeholder="#tags" value={uploadObject.instaInfo.tags} onChange={inputEntry}/>
+                                    </Form.Group>
+                                </Form>
                         </Tab>
                     </Tabs>
                 </Col>
