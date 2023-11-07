@@ -8,3 +8,27 @@ body {
     width: 400px;
     height: 300px;
 }
+.buttons
+{
+ 
+}
+
+.side-bar-icons
+{
+  padding-left: 30px;
+  padding-top: 30px;
+  cursor: pointer;
+
+}
+.side-bar-body
+{
+  background-color: rgb(32, 32, 32);
+  padding-left: 10px;
+  height: 100%;
+}
+.header-body
+{
+  background-color: rgb(32, 32, 32);
+  width: 100%;
+  height: 65px;
+}
