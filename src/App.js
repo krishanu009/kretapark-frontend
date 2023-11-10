@@ -8,7 +8,7 @@ import Header from './components/Header';
 import { Provider } from 'react-redux';
 import store from "./store"
 import constants from "./constants.json"
-import calenderView from './components/calenderView';
+import CalendarView from './components/calenderView';
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
       <Row>
         <Col lg="1"><SideBar selectedPage = {selectedPage} setSelectedPage = {setSelectedPage}></SideBar></Col>
         <Col>{selectedPage === constants.PAGES.UPLOAD && <UploadPage />}
-        {selectedPage === constants.PAGES.CALENDERVIEW && <calenderView  />}</Col>
+        {selectedPage === constants.PAGES.CALENDERVIEW && <CalendarView></CalendarView>}</Col>
       </Row>
      
     
