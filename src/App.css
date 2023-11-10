@@ -16,7 +16,8 @@ body {
 .side-bar-icons
 {
   padding-left: 30px;
-  padding-top: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   cursor: pointer;
 
 }
@@ -24,7 +25,14 @@ body {
 {
   background-color: rgb(32, 32, 32);
   padding-left: 10px;
-  height: 100%;
+  height: 100vh;
+}
+.selectedPageIcon
+{
+  background-color: rgb(129, 129, 129);
+  border-radius: 10%;
+ 
+
 }
 .header-body
 {
