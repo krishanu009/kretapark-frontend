@@ -1,35 +1,37 @@
 import React, { useState,  useEffect } from 'react';
 import './App.css';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import UploadPage from './UploadPage';
-import SideBar from './SideBar';
-import Header from './Header';
-function App() {
+import UploadPage from './components/UploadPage';
+import SideBar from './components/SideBar';
+import Header from './components/Header';
+import { Provider } from 'react-redux';
+import store from "./store"
+import constants from "./constants.json"
+import CalendarView from './components/calenderView';
 
+
+function App() {
+  const [selectedPage, setSelectedPage] = useState(constants.PAGES.UPLOAD);
   useEffect(() => {
     document.body.style.backgroundColor = 'rgb(54, 54, 54)';
   }, []);
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+   
 
   return (
 
     <>
+    
     <Row>
         <Header></Header>
       </Row>
     
       <Row>
-        <Col lg="1"><SideBar></SideBar></Col>
-        <Col><UploadPage></UploadPage></Col>
+        <Col lg="1"><SideBar selectedPage = {selectedPage} setSelectedPage = {setSelectedPage}></SideBar></Col>
+        <Col>{selectedPage === constants.PAGES.UPLOAD && <UploadPage />}
+        {selectedPage === constants.PAGES.CALENDERVIEW && <CalendarView></CalendarView>}</Col>
       </Row>
-      
+     
     
     {/* <Col  >
     <UploadPage></UploadPage>
