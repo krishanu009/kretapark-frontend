@@ -95,10 +95,19 @@
    .dateInfo
    {
     margin-top: 50px;
-    height: 600px;
+    height: 100%;
     width: 100%;
     background-color: #595959;
     border-radius: 2%;
+   }
+   .notScheduled
+   {
+    margin-top: 67px;
+    height: 250px;
+    width: 100%;
+    background-color: #595959;
+    border-radius: 2%;
+
    }
    .calendar-container
    {
