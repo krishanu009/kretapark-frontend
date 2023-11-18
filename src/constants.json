@@ -1,4 +1,5 @@
 
 {
-    "PAGES": {"HOME":"home","UPLOAD":"upload" , "CALENDERVIEW": "calenderview"}
+    "PAGES": {"HOME":"home","UPLOAD":"upload" , "CALENDERVIEW": "calenderview"},
+    "CONTENT": {"SCHEDULED":"scheduled","NOT_SCHEDULED":"notScheduled"}
 }
