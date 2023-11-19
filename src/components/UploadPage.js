@@ -93,6 +93,7 @@ const UploadPage = () => {
 
     return (
         <Container>
+            <div className='upload-page-body'>
             <Row>
                 <Col>
                     <Form.Group controlId="formFile" className="mb-3" data-bs-theme="dark">
@@ -248,6 +249,7 @@ const UploadPage = () => {
                 </Col>
 
             </Row>
+            </div>
         </Container>
     )
 }
