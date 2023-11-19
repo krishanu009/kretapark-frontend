@@ -1,3 +1,9 @@
+
+.calendar-view-body
+{
+  margin-top: 31px;
+  ;
+}
 .react-calendar {
   width: 600px;
   max-width: 100%;
@@ -93,13 +99,16 @@ abbr[title] {
 }
 .dateInfo {
   margin-top: 50px;
-  height: 100%;
+  height: 286px;
   width: 100%;
   background-color: #595959;
   border-radius: 2%;
 }
 .dateInfo-inner {
   padding: 20px;
+  background-color: #242424;
+    margin: 10px;
+    height: 228px;
 }
 
 .delete-icon-scheduled {
@@ -122,8 +131,8 @@ abbr[title] {
 }
 
 .cover-image {
-  width: 100%;
-  height: 100%;
+  width: 191px;
+  /* height: 100%; */
   object-fit: cover;
 }
 .notScheduled {
@@ -137,7 +146,7 @@ abbr[title] {
 }
 .notScheduled-items {
   margin: 5px;
-  height: 177px;
+  height: 58px;
   width: 263px;
   background-color: #242424;
   border-radius: 2%;
