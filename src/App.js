@@ -9,8 +9,7 @@ import { Provider } from 'react-redux';
 import store from "./store"
 import constants from "./constants.json"
 import CalendarView from './components/calenderView';
-
-
+import BardApiComp from './components/BardApiComp'; 
 function App() {
   const [selectedPage, setSelectedPage] = useState(constants.PAGES.UPLOAD);
   useEffect(() => {
@@ -28,7 +27,7 @@ function App() {
     
       <Row>
         <Col lg="1"><SideBar selectedPage = {selectedPage} setSelectedPage = {setSelectedPage}></SideBar></Col>
-        <Col>{selectedPage === constants.PAGES.UPLOAD && <UploadPage />}
+        <Col>{selectedPage === constants.PAGES.HOME && <BardApiComp></BardApiComp>}{selectedPage === constants.PAGES.UPLOAD && <UploadPage />}
         {selectedPage === constants.PAGES.CALENDERVIEW && <CalendarView></CalendarView>}</Col>
       </Row>
      
