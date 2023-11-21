@@ -101,14 +101,17 @@ abbr[title] {
   margin-top: 50px;
   height: 286px;
   width: 100%;
-  background-color: #595959;
+  /* background-color: #595959; */
   border-radius: 2%;
+  border: 2px solid rgb(89, 89, 89);
+
 }
 .dateInfo-inner {
   padding: 20px;
   background-color: #242424;
     margin: 10px;
     height: 228px;
+    border: 2px solid rgb(89, 89, 89);
 }
 
 .delete-icon-scheduled {
@@ -139,7 +142,8 @@ abbr[title] {
   margin-top: 67px;
   height: 250px;
   width: 100%;
-  background-color: #595959;
+  /* background-color: #595959; */
+  border: 2px solid rgb(89, 89, 89);
   border-radius: 2%;
   overflow-y: auto;
   
@@ -151,6 +155,7 @@ abbr[title] {
   background-color: #242424;
   border-radius: 2%;
   display: inline-block;
+  border: 2px solid rgb(89, 89, 89);
 }
 /* .notScheduled-items:hover {
   margin: 5px;
@@ -173,4 +178,8 @@ abbr[title] {
   color: #dddbdb;
   font-size: 20px;
   padding: 5px;
+}
+.text-center
+{
+  color: #dddbdb;
 }

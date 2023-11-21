@@ -13,7 +13,7 @@ import BardApiComp from './components/BardApiComp';
 function App() {
   const [selectedPage, setSelectedPage] = useState(constants.PAGES.UPLOAD);
   useEffect(() => {
-    document.body.style.backgroundColor = 'rgb(54, 54, 54)';
+    document.body.style.backgroundColor = 'rgb(34,39,46)';
   }, []);
    
 
