@@ -142,6 +142,7 @@ const UploadPage = () => {
                             </svg></button>
 
                         </Col>
+                        
                     </Row>
 
                 </Col>
@@ -187,12 +188,12 @@ const UploadPage = () => {
                     </Accordion> */}
 
                     <Tabs
-                        defaultActiveKey="profile"
+                        defaultActiveKey="youtube"
                         id="uncontrolled-tab-example"
                         className="mb-3" data-bs-theme="dark"
                         onSelect={(key) => handleTabSelect(key)}
                     >
-                        <Tab eventKey="youtube" title="YouTube" disabled={selectedVideo}>
+                        <Tab eventKey="youtube" title="YouTube" >
                             <Row>
                                 <Form data-bs-theme="dark">
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -211,7 +212,7 @@ const UploadPage = () => {
                                 </Form>
                             </Row>
                         </Tab>
-                        <Tab eventKey="facebook" title="FaceBook" disabled={selectedVideo}>
+                        <Tab eventKey="facebook" title="FaceBook" >
                             <Form data-bs-theme="dark">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label>Title</Form.Label>
@@ -228,7 +229,7 @@ const UploadPage = () => {
                                 </Form.Group>
                             </Form>
                         </Tab>
-                        <Tab eventKey="instagram" title="Instagram" disabled={selectedVideo}>
+                        <Tab eventKey="instagram" title="Instagram" >
                             <Form data-bs-theme="dark">
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label>Title</Form.Label>

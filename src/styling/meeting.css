@@ -1,0 +1,42 @@
+.chat-area{
+padding-top: 200px;
+    height: 100dvh;
+    border-left: 2px solid rgb(68,76,86);
+    background-color: rgb(35, 32, 40);
+    overflow-y: scroll;
+}
+
+.otherMessage
+{
+    width: fit-content;
+    height: auto;
+    background-color: rgb(100, 104, 105);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    
+}
+.yourMessage
+{
+    width: fit-content;
+    height: auto;
+    background-color: rgb(33,193,124);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    float: right;
+    margin-top: 50px;
+}
+.senderName
+{
+    display: block;
+    font-weight: bold;
+
+}
+.receivedTime
+{
+    font-weight: small;
+    display: block;
+    color: rgb(38, 38, 38);
+    
+}
