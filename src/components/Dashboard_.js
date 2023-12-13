@@ -26,14 +26,13 @@ function Dashboard_() {
 },[]);
 
 const getUser = () => {
-  console.log(localStorage.getItem('token'));
   axios.get('/user/current', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
   .then((r) => {
      setUser(r.data)
-     console.log(r.data);
   })
   .catch((e) => {
       console.log(e)
+      navigate("/");
   });
 };
 

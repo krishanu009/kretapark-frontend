@@ -5,6 +5,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styling/calender.css";
 import constants from "../constants.json";
+import { useNavigate } from "react-router-dom"
+import axios from 'axios';
 const CalendarView = () => {
   let emptyDispObj = {
     id: "",
@@ -15,6 +17,7 @@ const CalendarView = () => {
   };
   const [date, setDate] = useState(new Date());
   const [displayedInfo, setDisplayedInfo] = useState(emptyDispObj);
+  const [allContent, setAllContent] = useState([]);
   const [scheduledContent, setScheduledContent] = useState([
     {
       id: "1",
@@ -62,6 +65,51 @@ const CalendarView = () => {
   useEffect(() => {
     fetchInfoOnDate(date.toDateString());
   }, [date]);
+
+  useEffect(() => {
+    getAllPost();
+    filterScheduledAndNotScheduled();
+  }, []);
+  useEffect(() => {
+    filterScheduledAndNotScheduled();
+    fetchInfoOnDate(date.toDateString());
+  }, [allContent]);
+
+
+  const getAllPost = () => {
+    axios.get(process.env.REACT_APP_GET_ALL_USER, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    .then((res) => {
+      setAllContent(res.data);
+      console.log(res.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+  };
+
+  const filterScheduledAndNotScheduled = () => {
+     let newScheduledContent = allContent.filter(obj => obj['scheduled'] === true);
+     let newNotScheduledContent = allContent.filter(obj => obj['scheduled'] === false);
+     console.log('scheduledContent' , newScheduledContent);
+     console.log('not scheduledContent' , newNotScheduledContent);
+     setScheduledContent(newScheduledContent);
+     setNotScheduledContent(newNotScheduledContent);
+
+  };
+
+  const updatePost = post => {
+
+    
+    
+    axios.put(process.env.REACT_APP_UPDATE_USER + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+
+  }
   // let scheduledContent = [
   //   {
   //     date: "2023-11-02T18:30:00.000Z",
@@ -140,17 +188,23 @@ const CalendarView = () => {
     }
     console.log(item.title);
     // handleDelete(constants.CONTENT.NOT_SCHEDULED,item);
-    let newNotScheduledContent = [...notScheduledContent];
+    // let newNotScheduledContent = [...notScheduledContent];
 
-    newNotScheduledContent = deleteObjectById(newNotScheduledContent, item.id);
-    console.log(newNotScheduledContent);
-    setNotScheduledContent(newNotScheduledContent);
+    // newNotScheduledContent = deleteObjectById(newNotScheduledContent, item.id);
+    // console.log(newNotScheduledContent);
+    // setNotScheduledContent(newNotScheduledContent);
+    // item.date = date.toDateString();
+    // setDisplayedInfo(item);
+    // let newScheduledContent = [...scheduledContent];
+    // newScheduledContent.push(item);
+    // setScheduledContent(newScheduledContent);
+    // console.log(newScheduledContent);
     item.date = date.toDateString();
+    item.scheduled = true;
     setDisplayedInfo(item);
-    let newScheduledContent = [...scheduledContent];
-    newScheduledContent.push(item);
-    setScheduledContent(newScheduledContent);
-    console.log(newScheduledContent);
+    updatePost(item);
+    getAllPost();
+
   }
 
   
