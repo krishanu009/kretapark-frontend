@@ -68,7 +68,6 @@ const CalendarView = () => {
 
   useEffect(() => {
     getAllPost();
-    filterScheduledAndNotScheduled();
   }, []);
   useEffect(() => {
     filterScheduledAndNotScheduled();
@@ -80,7 +79,7 @@ const CalendarView = () => {
     axios.get(process.env.REACT_APP_GET_ALL_USER, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
     .then((res) => {
       setAllContent(res.data);
-      console.log(res.data);
+      console.log('get all post api',res.data);
     })
     .catch((e) => {
       console.log(e);
@@ -103,7 +102,7 @@ const CalendarView = () => {
     
     axios.put(process.env.REACT_APP_UPDATE_USER + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
     .then((res) => {
-      console.log(res.data);
+      console.log("update put api",res.data);
     })
     .catch((e) => {
       console.log(e);
@@ -131,7 +130,7 @@ const CalendarView = () => {
   // ];
 
   function fetchInfoOnDate(date) {
-    console.log(date);
+    console.log('fetch info date', date);
     let foundObj = scheduledContent.find((item) => {
       return item.date === date;
     });
@@ -142,10 +141,10 @@ const CalendarView = () => {
       emptyDispObj.date = date;
       setDisplayedInfo(emptyDispObj);
     }
-    console.log(foundObj);
+    console.log('fetch indo obj found',foundObj);
   }
   function deleteObjectById(array, id) {
-    let newArray = array.filter((item) => item.id !== id);
+    let newArray = array.filter((item) => item._id !== id);
     return newArray;
   }
   function getDate() {
@@ -158,13 +157,18 @@ const CalendarView = () => {
   const handleDelete = (param, data) => (event) => {
     let newNotScheduledContent = [...notScheduledContent];
     if (param === constants.CONTENT.SCHEDULED) {
+      
       let content = displayedInfo;
+      setDisplayedInfo(emptyDispObj);
       let newScheduledContent = [...scheduledContent];
       newScheduledContent = deleteObjectById(newScheduledContent, content.id);
       newNotScheduledContent.push(content);
       setDisplayedInfo(emptyDispObj);
       setScheduledContent(newScheduledContent);
       setNotScheduledContent(newNotScheduledContent);
+      content.scheduled = false;
+      updatePost(content);
+       
     } else {
       newNotScheduledContent = deleteObjectById(
         newNotScheduledContent,
@@ -188,22 +192,21 @@ const CalendarView = () => {
     }
     console.log(item.title);
     // handleDelete(constants.CONTENT.NOT_SCHEDULED,item);
-    // let newNotScheduledContent = [...notScheduledContent];
-
-    // newNotScheduledContent = deleteObjectById(newNotScheduledContent, item.id);
-    // console.log(newNotScheduledContent);
-    // setNotScheduledContent(newNotScheduledContent);
-    // item.date = date.toDateString();
-    // setDisplayedInfo(item);
-    // let newScheduledContent = [...scheduledContent];
-    // newScheduledContent.push(item);
-    // setScheduledContent(newScheduledContent);
-    // console.log(newScheduledContent);
+    let newNotScheduledContent = [...notScheduledContent];
+   
+    newNotScheduledContent = deleteObjectById(newNotScheduledContent, item._id);
+    console.log('handle drop new not scheduled',newNotScheduledContent);
+    setNotScheduledContent(newNotScheduledContent);
     item.date = date.toDateString();
     item.scheduled = true;
     setDisplayedInfo(item);
+    let newScheduledContent = [...scheduledContent];
+    newScheduledContent.push(item);
+    setScheduledContent(newScheduledContent);
+    console.log('handle drop new scheduled',newScheduledContent);
+   
+    setDisplayedInfo(item);
     updatePost(item);
-    getAllPost();
 
   }
 
