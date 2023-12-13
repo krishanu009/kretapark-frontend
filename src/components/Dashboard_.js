@@ -9,9 +9,34 @@ import constants from "../constants.json"
 import CalendarView from './calenderView';
 import BardApiComp from './BardApiComp';
 import ChatRoom from './ChatRoom';
-
+import { useNavigate } from "react-router-dom"
 import Register from './Register';
+import axios from 'axios';
+
+
 function Dashboard_() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({})
+  useEffect(()=>{
+    if(localStorage.getItem('token') == "" || localStorage.getItem('token') == null){
+        navigate("/");
+    }else {
+        getUser()
+    }
+},[]);
+
+const getUser = () => {
+  console.log(localStorage.getItem('token'));
+  axios.get('/user/current', { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+  .then((r) => {
+     setUser(r.data)
+     console.log(r.data);
+  })
+  .catch((e) => {
+      console.log(e)
+  });
+};
+
     const [selectedPage, setSelectedPage] = useState(constants.PAGES.UPLOAD);
   return (
     <>

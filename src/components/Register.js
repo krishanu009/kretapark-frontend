@@ -4,8 +4,9 @@ import Button from 'react-bootstrap/esm/Button';
 import "../styling/register.css";
 import axios from 'axios';
 import {Link, Navigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom"
 function Register() {
+  const navigate = useNavigate();
     const [register,setRegister] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -31,7 +32,9 @@ function Register() {
       
       axios.post(process.env.REACT_APP_REGISTER_USER, payload ).then((res)=>{
         setIsSubmitting(false);
-        console.log("y",res);
+        console.log("y",res.data);
+        localStorage.setItem('token', res.data.accesToken)
+        navigate("/dashboard");
       }).catch((e)=> {
         setIsSubmitting(false);
         // alert(e.data.errors);

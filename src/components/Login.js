@@ -4,23 +4,21 @@ import Button from 'react-bootstrap/esm/Button';
 import "../styling/register.css";
 import axios from 'axios';
 import {Link, Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
+
+ 
 function Login() {
-    const [register,setRegister] = useState(false);
-    const [name, setName] = useState('');
+  const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
  
 
-    const handleClick = (event) =>
-    {
-     setRegister(!register);
-    };
-    const registerAction = (event) => {
+    
+    const loginAction = (event) => {
         event.preventDefault();
         let payload = {
-            "userName":name,
             "email":email,
             "password":password
           }
@@ -28,9 +26,11 @@ function Login() {
       
       setIsSubmitting(true)
       
-      axios.post(process.env.REACT_APP_REGISTER_USER, payload ).then((res)=>{
+      axios.post(process.env.REACT_APP_LOGIN_USER, payload ).then((res)=>{
         setIsSubmitting(false);
-        console.log("y",res);
+        console.log("y",res.data);
+        localStorage.setItem('token', res.data.accesToken)
+        navigate("/dashboard");
       }).catch((e)=> {
         setIsSubmitting(false);
         // alert(e.data.errors);
@@ -40,11 +40,11 @@ function Login() {
   return (
     <div class="container">
     <div className='loginCard'>
-        <Form>
+        <Form onSubmit={(e)=>loginAction(e)}>
             <h1 style={{ marginLeft: '82px' , color: 'white'}}>LOGIN</h1>
               <Form.Group className="mb-3" controlId="formBasicEmail" data-bs-theme="dark">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control type="email" placeholder="Enter email"  required onChange={(e)=>{setEmail(e.target.value)}}/>
                   <Form.Text className="text-muted">
                       We'll never share your email with anyone else.
                   </Form.Text>
@@ -52,11 +52,11 @@ function Login() {
 
               <Form.Group className="mb-3" controlId="formBasicPassword" data-bs-theme="dark">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control type="password" placeholder="Password"  required onChange={(e)=>{setPassword(e.target.value)}}/>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox" data-bs-theme="dark">
                   {/* <Form.Check type="checkbox" label="Check me out" /> */}
-                  <p onClick={handleClick} style={{ cursor: 'pointer', color: 'blue' }}>Don't have account? <Link to="/register">Register here</Link></p>
+                  <p  style={{ cursor: 'pointer', color: 'blue' }}>Don't have account? <Link to="/register">Register here</Link></p>
               </Form.Group>
               
               <Button style={{ marginLeft: '108px' }} variant="primary" type="submit" data-bs-theme="dark" disabled = {isSubmitting}>
