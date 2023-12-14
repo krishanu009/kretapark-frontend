@@ -36,7 +36,7 @@ const getUser = () => {
   });
 };
 
-    const [selectedPage, setSelectedPage] = useState(constants.PAGES.UPLOAD);
+    const [selectedPage, setSelectedPage] = useState(constants.PAGES.CALENDERVIEW);
   return (
     <>
     

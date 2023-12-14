@@ -70,20 +70,27 @@ const CalendarView = () => {
     getAllPost();
   }, []);
   useEffect(() => {
-    filterScheduledAndNotScheduled();
-    fetchInfoOnDate(date.toDateString());
+   filterScheduledAndNotScheduled();
+    // fetchInfoOnDate(date.toDateString());
   }, [allContent]);
+  useEffect(() => {
+    // filterScheduledAndNotScheduled();
+     fetchInfoOnDate(date.toDateString());
+   }, [scheduledContent,notScheduledContent]);
 
 
-  const getAllPost = () => {
-    axios.get(process.env.REACT_APP_GET_ALL_USER, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+  const getAllPost = async () => {
+    await axios.get(process.env.REACT_APP_GET_ALL_USER, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
     .then((res) => {
       setAllContent(res.data);
       console.log('get all post api',res.data);
+      return res.data;
     })
     .catch((e) => {
       console.log(e);
+      return Promise.reject(e);
     })
+   
   };
 
   const filterScheduledAndNotScheduled = () => {
@@ -94,20 +101,23 @@ const CalendarView = () => {
      setScheduledContent(newScheduledContent);
      setNotScheduledContent(newNotScheduledContent);
 
+
   };
 
-  const updatePost = post => {
+  const  updatePost = async post => {
 
     
     
-    axios.put(process.env.REACT_APP_UPDATE_USER + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    await axios.put(process.env.REACT_APP_UPDATE_USER + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
     .then((res) => {
       console.log("update put api",res.data);
+      return res.data;
     })
     .catch((e) => {
       console.log(e);
+      return Promise.reject(e);
     })
-
+    
   }
   // let scheduledContent = [
   //   {
@@ -131,6 +141,7 @@ const CalendarView = () => {
 
   function fetchInfoOnDate(date) {
     console.log('fetch info date', date);
+    console.log('fetch info date scheduled content', scheduledContent);
     let foundObj = scheduledContent.find((item) => {
       return item.date === date;
     });
@@ -154,20 +165,21 @@ const CalendarView = () => {
 
     return formattedDate;
   }
-  const handleDelete = (param, data) => (event) => {
+  const handleDelete = (param, data) => async (event) => {
     let newNotScheduledContent = [...notScheduledContent];
     if (param === constants.CONTENT.SCHEDULED) {
       
       let content = displayedInfo;
       setDisplayedInfo(emptyDispObj);
-      let newScheduledContent = [...scheduledContent];
-      newScheduledContent = deleteObjectById(newScheduledContent, content.id);
-      newNotScheduledContent.push(content);
-      setDisplayedInfo(emptyDispObj);
-      setScheduledContent(newScheduledContent);
-      setNotScheduledContent(newNotScheduledContent);
+      // let newScheduledContent = [...scheduledContent];
+      // newScheduledContent = deleteObjectById(newScheduledContent, content.id);
+      // newNotScheduledContent.push(content);
+      // setDisplayedInfo(emptyDispObj);
+      // setScheduledContent(newScheduledContent);
+      // setNotScheduledContent(newNotScheduledContent);
       content.scheduled = false;
-      updatePost(content);
+     await updatePost(content);
+     await getAllPost();
        
     } else {
       newNotScheduledContent = deleteObjectById(
@@ -185,28 +197,45 @@ const CalendarView = () => {
   }
 
 
-  function handleDrop(e) {
+  async function handleDrop(e) {
     let item = e.dataTransfer.getData("item");
     if (item) {
       item = JSON.parse(item);
     }
     console.log(item.title);
-    // handleDelete(constants.CONTENT.NOT_SCHEDULED,item);
-    let newNotScheduledContent = [...notScheduledContent];
+    // // handleDelete(constants.CONTENT.NOT_SCHEDULED,item);
+    // let newNotScheduledContent = [...notScheduledContent];
    
-    newNotScheduledContent = deleteObjectById(newNotScheduledContent, item._id);
-    console.log('handle drop new not scheduled',newNotScheduledContent);
-    setNotScheduledContent(newNotScheduledContent);
-    item.date = date.toDateString();
+    // newNotScheduledContent = deleteObjectById(newNotScheduledContent, item._id);
+    // console.log('handle drop new not scheduled',newNotScheduledContent);
+    // setNotScheduledContent(newNotScheduledContent);
+    // item.date = date.toDateString();
+    // item.scheduled = true;
+    // setDisplayedInfo(item);
+    // let newScheduledContent = [...scheduledContent];
+    // newScheduledContent.push(item);
+    // setScheduledContent(newScheduledContent);
+    // console.log('handle drop new scheduled',newScheduledContent);
+    
+      item.date = date.toDateString();
     item.scheduled = true;
-    setDisplayedInfo(item);
-    let newScheduledContent = [...scheduledContent];
-    newScheduledContent.push(item);
-    setScheduledContent(newScheduledContent);
-    console.log('handle drop new scheduled',newScheduledContent);
-   
-    setDisplayedInfo(item);
-    updatePost(item);
+    
+    try {
+      let result = await updatePost(item);
+      console.log("drop result ", result);
+  
+      // Now that updatePost is complete, call getAllPost
+      await getAllPost();
+  
+      // Continue with the rest of your logic
+      // setDisplayedInfo(item);
+  
+      // ... other logic ...
+  
+    } catch (error) {
+      console.error("Error updating post:", error);
+      // Handle the error if the update fails
+    }
 
   }
 
