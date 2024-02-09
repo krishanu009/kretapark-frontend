@@ -13,7 +13,7 @@ function Register() {
     const [password, setPassword] = useState('');
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
- 
+    const [errorText, setErrorText] = useState('');
 
     const handleClick = (event) =>
     {
@@ -29,6 +29,7 @@ function Register() {
           console.log(payload);
       
       setIsSubmitting(true)
+      setErrorText('');
       
       axios.post(process.env.REACT_APP_REGISTER_USER, payload ).then((res)=>{
         setIsSubmitting(false);
@@ -39,6 +40,7 @@ function Register() {
         setIsSubmitting(false);
         // alert(e.data.errors);
         console.log("N",e);
+        setErrorText(e.response.data.message);
       })
     };
   return (
@@ -63,6 +65,7 @@ function Register() {
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Password" id = 'password' name = 'name'  requiredvalue={password} onChange={(e)=>{setPassword(e.target.value)}}/>
               </Form.Group>
+              <p className='errorText'>{errorText}</p>
               <Form.Group className="mb-3" controlId="formBasicCheckbox" data-bs-theme="dark">
                   {/* <Form.Check type="checkbox" label="Check me out" /> */}
                   <p onClick={handleClick} style={{ cursor: 'pointer', color: 'blue' }}>Already an User? <Link to="/">Log in here</Link></p>

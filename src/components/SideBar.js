@@ -3,6 +3,7 @@ import constants from "../constants.json";
 function SideBar({ selectedPage, setSelectedPage }) {
   const handleIconClick = (param) => (event) => {
     setSelectedPage(param);
+    console.log(selectedPage);
   };
   return (
     <div className="side-bar-body ">
@@ -26,6 +27,60 @@ function SideBar({ selectedPage, setSelectedPage }) {
         >
           <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
         </svg>
+      </div>
+
+      <div
+        className={`${
+          selectedPage === constants.PAGES.SCRIPTS ||
+          selectedPage === constants.PAGES.TEXT_EDITOR
+            ? "selectedPageIcon"
+            : "side-bar-icons"
+        }`}
+        id="home"
+        onClick={handleIconClick(constants.PAGES.SCRIPTS)}
+      >
+        <svg
+          style={{ marginLeft: "5px", marginTop: "4px" }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="white"
+          class="bi bi-house"
+          viewBox="0 0 16 16"
+        >
+          <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+        </svg>
+      </div>
+
+      <div
+        className={`${
+          selectedPage === constants.PAGES.POST_VIEW 
+            ? "selectedPageIcon"
+            : "side-bar-icons"
+        }`}
+        id="home"
+        onClick={handleIconClick(constants.PAGES.POST_VIEW)}
+      >
+        <svg
+        style={{ marginLeft: "5px", marginTop: "4px" }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="white"
+          class="bi bi-list-task"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"
+          />
+          <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z" />
+          <path
+            fill-rule="evenodd"
+            d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"
+          />
+        </svg>
+        
       </div>
       <div
         className={`${

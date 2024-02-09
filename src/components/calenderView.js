@@ -80,7 +80,7 @@ const CalendarView = () => {
 
 
   const getAllPost = async () => {
-    await axios.get(process.env.REACT_APP_GET_ALL_USER, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    await axios.get(process.env.REACT_APP_GET_ALL_POST, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
     .then((res) => {
       setAllContent(res.data);
       console.log('get all post api',res.data);
@@ -108,7 +108,7 @@ const CalendarView = () => {
 
     
     
-    await axios.put(process.env.REACT_APP_UPDATE_USER + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    await axios.put(process.env.REACT_APP_UPDATE_POST + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
     .then((res) => {
       console.log("update put api",res.data);
       return res.data;

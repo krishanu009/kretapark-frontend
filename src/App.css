@@ -43,6 +43,7 @@ body {
   top: 65px;
   padding-top: 23px;
   border-right: 2px solid rgb(68,76,86);
+  z-index: 2;
 }
 
 .header-body
@@ -53,8 +54,17 @@ body {
   position: fixed;
   right: -1px;
   border-bottom: 2px solid rgb(68,76,86);
+  z-index: 5;
 }
 
 .upload-page-body{
   margin-top: 42px;
+}
+.wrapper {
+  font-family: sans-serif;
+}
+
+.ql-editor {
+  min-height: calc(100vh - 100px);
+  background-color: white;
 }

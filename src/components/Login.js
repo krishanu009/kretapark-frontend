@@ -13,6 +13,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorText, setErrorText] = useState("");
  
 
     
@@ -25,6 +26,7 @@ function Login() {
           console.log(payload);
       
       setIsSubmitting(true)
+      setErrorText('');
       
       axios.post(process.env.REACT_APP_LOGIN_USER, payload ).then((res)=>{
         setIsSubmitting(false);
@@ -35,6 +37,7 @@ function Login() {
         setIsSubmitting(false);
         // alert(e.data.errors);
         console.log("N",e);
+        setErrorText(e.response.data.message);
       })
     };
   return (
@@ -54,6 +57,7 @@ function Login() {
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Password"  required onChange={(e)=>{setPassword(e.target.value)}}/>
               </Form.Group>
+              <p className='errorText'>{errorText}</p>
               <Form.Group className="mb-3" controlId="formBasicCheckbox" data-bs-theme="dark">
                   {/* <Form.Check type="checkbox" label="Check me out" /> */}
                   <p  style={{ cursor: 'pointer', color: 'blue' }}>Don't have account? <Link to="/register">Register here</Link></p>
