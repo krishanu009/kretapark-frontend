@@ -5,16 +5,27 @@
     
    
 }
-
+.taskView
+{
+    overflow-y: auto;
+    max-height: 70dvh;
+    overflow-x: hidden;
+}
 .toDoList, .inProgress, .done
 {
     background-color: rgb(28,33,40);
     width: 100%;
     height: 100%;
-    margin-top: 20px;
     padding: 10px;
     min-height: 70dvh;
 
+}
+.listTitle
+{
+    /* background-color: rgb(28,33,40); */
+   
+    margin-top: 20px;
+    padding: 10px;
 }
 .task
 {
