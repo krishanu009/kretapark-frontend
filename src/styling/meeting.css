@@ -1,0 +1,121 @@
+.chat-area{
+/* padding-top: 200px; */
+    /* height: 100dvh; */
+    /* max-height: 100dvh; */
+    border-left: 2px solid rgb(68,76,86);
+    background-color: rgb(35, 32, 40);
+    overflow-y: hidden;
+    padding-left: 0 !important;
+}
+.newChanelButtonDiv
+{
+    padding-top: 87px; 
+}
+.modal-content {
+    background-color: rgb(34,39,46) !important;
+    color: #9b9797 !important;
+    border: var(--bs-modal-border-width) solid rgb(34 38 43);
+  }
+  .modal-header {
+    border-bottom: none !important;;
+  }
+  .modal-footer {
+    border-top: none !important;;
+  }
+.chanelList
+{
+    padding-top: 2px;
+    overflow-y: auto;
+    color: #9b9797;
+    font-weight: bold;
+    max-height: 730px;
+    cursor: pointer;
+}
+.chanelSelected
+{
+    color:azure;
+}
+.messagesShow
+{
+    padding-top: 87px;
+    padding-bottom: 136px;
+    height: 79dvh; /* Set a maximum height */
+    overflow-y: auto;
+    padding-left: 10px;
+}
+.chatAreaHeader
+{
+    padding-top: 67px;
+    height: 110px;
+    width: 100%;
+    background-color: rgb(35, 32, 40);
+    margin: 0px;
+    border-bottom: 2px solid rgb(68,76,86);
+}
+.participantsIcon
+{
+    cursor: pointer;
+   
+    
+    
+}
+.messageLine
+{
+    width: 100%;
+    display: block;
+}
+.otherMessage
+{
+    width: fit-content;
+    height: auto;
+    background-color: rgb(100, 104, 105);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    margin-bottom: 10px;
+    
+}
+.yourMessage {
+    width: fit-content;
+    height: auto;
+    background-color: rgb(33, 193, 124);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    margin-bottom: 10px;
+    clear: both; /* Add this property to ensure the message appears below the previous one */
+  }
+.senderName
+{
+    display: block;
+    font-weight: bold;
+
+}
+.receivedTime
+{
+    font-weight: small;
+    display: block;
+    color: rgb(38, 38, 38);
+    
+}
+.writeMessage
+{
+    position: fixed;
+    top: 591px;
+    width:55%;
+    left: 485px;
+    
+
+}
+.sendButton
+{
+    position: fixed;
+    top: 607px;
+    left: 1350px;
+    cursor: pointer;
+    z-index: 6;
+}
+.sendButton:hover
+{
+    width: 210px;
+}

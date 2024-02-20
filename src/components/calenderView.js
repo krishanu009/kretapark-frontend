@@ -5,6 +5,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styling/calender.css";
 import constants from "../constants.json";
+import { useNavigate } from "react-router-dom"
+import axios from 'axios';
 const CalendarView = () => {
   let emptyDispObj = {
     id: "",
@@ -15,6 +17,7 @@ const CalendarView = () => {
   };
   const [date, setDate] = useState(new Date());
   const [displayedInfo, setDisplayedInfo] = useState(emptyDispObj);
+  const [allContent, setAllContent] = useState([]);
   const [scheduledContent, setScheduledContent] = useState([
     {
       id: "1",
@@ -62,6 +65,60 @@ const CalendarView = () => {
   useEffect(() => {
     fetchInfoOnDate(date.toDateString());
   }, [date]);
+
+  useEffect(() => {
+    getAllPost();
+  }, []);
+  useEffect(() => {
+   filterScheduledAndNotScheduled();
+    // fetchInfoOnDate(date.toDateString());
+  }, [allContent]);
+  useEffect(() => {
+    // filterScheduledAndNotScheduled();
+     fetchInfoOnDate(date.toDateString());
+   }, [scheduledContent,notScheduledContent]);
+
+
+  const getAllPost = async () => {
+    await axios.get(process.env.REACT_APP_GET_ALL_POST, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    .then((res) => {
+      setAllContent(res.data);
+      console.log('get all post api',res.data);
+      return res.data;
+    })
+    .catch((e) => {
+      console.log(e);
+      return Promise.reject(e);
+    })
+   
+  };
+
+  const filterScheduledAndNotScheduled = () => {
+     let newScheduledContent = allContent.filter(obj => obj['scheduled'] === true);
+     let newNotScheduledContent = allContent.filter(obj => obj['scheduled'] === false);
+     console.log('scheduledContent' , newScheduledContent);
+     console.log('not scheduledContent' , newNotScheduledContent);
+     setScheduledContent(newScheduledContent);
+     setNotScheduledContent(newNotScheduledContent);
+
+
+  };
+
+  const  updatePost = async post => {
+
+    
+    
+    await axios.put(process.env.REACT_APP_UPDATE_POST + '/'+ post._id, post, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+    .then((res) => {
+      console.log("update put api",res.data);
+      return res.data;
+    })
+    .catch((e) => {
+      console.log(e);
+      return Promise.reject(e);
+    })
+    
+  }
   // let scheduledContent = [
   //   {
   //     date: "2023-11-02T18:30:00.000Z",
@@ -83,7 +140,8 @@ const CalendarView = () => {
   // ];
 
   function fetchInfoOnDate(date) {
-    console.log(date);
+    console.log('fetch info date', date);
+    console.log('fetch info date scheduled content', scheduledContent);
     let foundObj = scheduledContent.find((item) => {
       return item.date === date;
     });
@@ -94,10 +152,10 @@ const CalendarView = () => {
       emptyDispObj.date = date;
       setDisplayedInfo(emptyDispObj);
     }
-    console.log(foundObj);
+    console.log('fetch indo obj found',foundObj);
   }
   function deleteObjectById(array, id) {
-    let newArray = array.filter((item) => item.id !== id);
+    let newArray = array.filter((item) => item._id !== id);
     return newArray;
   }
   function getDate() {
@@ -107,16 +165,22 @@ const CalendarView = () => {
 
     return formattedDate;
   }
-  const handleDelete = (param, data) => (event) => {
+  const handleDelete = (param, data) => async (event) => {
     let newNotScheduledContent = [...notScheduledContent];
     if (param === constants.CONTENT.SCHEDULED) {
+      
       let content = displayedInfo;
-      let newScheduledContent = [...scheduledContent];
-      newScheduledContent = deleteObjectById(newScheduledContent, content.id);
-      newNotScheduledContent.push(content);
       setDisplayedInfo(emptyDispObj);
-      setScheduledContent(newScheduledContent);
-      setNotScheduledContent(newNotScheduledContent);
+      // let newScheduledContent = [...scheduledContent];
+      // newScheduledContent = deleteObjectById(newScheduledContent, content.id);
+      // newNotScheduledContent.push(content);
+      // setDisplayedInfo(emptyDispObj);
+      // setScheduledContent(newScheduledContent);
+      // setNotScheduledContent(newNotScheduledContent);
+      content.scheduled = false;
+     await updatePost(content);
+     await getAllPost();
+       
     } else {
       newNotScheduledContent = deleteObjectById(
         newNotScheduledContent,
@@ -133,24 +197,46 @@ const CalendarView = () => {
   }
 
 
-  function handleDrop(e) {
+  async function handleDrop(e) {
     let item = e.dataTransfer.getData("item");
     if (item) {
       item = JSON.parse(item);
     }
     console.log(item.title);
-    // handleDelete(constants.CONTENT.NOT_SCHEDULED,item);
-    let newNotScheduledContent = [...notScheduledContent];
+    // // handleDelete(constants.CONTENT.NOT_SCHEDULED,item);
+    // let newNotScheduledContent = [...notScheduledContent];
+   
+    // newNotScheduledContent = deleteObjectById(newNotScheduledContent, item._id);
+    // console.log('handle drop new not scheduled',newNotScheduledContent);
+    // setNotScheduledContent(newNotScheduledContent);
+    // item.date = date.toDateString();
+    // item.scheduled = true;
+    // setDisplayedInfo(item);
+    // let newScheduledContent = [...scheduledContent];
+    // newScheduledContent.push(item);
+    // setScheduledContent(newScheduledContent);
+    // console.log('handle drop new scheduled',newScheduledContent);
+    
+      item.date = date.toDateString();
+    item.scheduled = true;
+    
+    try {
+      let result = await updatePost(item);
+      console.log("drop result ", result);
+  
+      // Now that updatePost is complete, call getAllPost
+      await getAllPost();
+  
+      // Continue with the rest of your logic
+      // setDisplayedInfo(item);
+  
+      // ... other logic ...
+  
+    } catch (error) {
+      console.error("Error updating post:", error);
+      // Handle the error if the update fails
+    }
 
-    newNotScheduledContent = deleteObjectById(newNotScheduledContent, item.id);
-    console.log(newNotScheduledContent);
-    setNotScheduledContent(newNotScheduledContent);
-    item.date = date.toDateString();
-    setDisplayedInfo(item);
-    let newScheduledContent = [...scheduledContent];
-    newScheduledContent.push(item);
-    setScheduledContent(newScheduledContent);
-    console.log(newScheduledContent);
   }
 
   
