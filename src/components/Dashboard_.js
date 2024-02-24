@@ -19,6 +19,10 @@ import PostScheduleView from './PostScheduleView';
 
 
 function Dashboard_() {
+
+  const [theme, setTheme] = useState("light");
+
+  
   const navigate = useNavigate();
   const [user, setUser] = useState({})
   const [title,setTitle] = useState();

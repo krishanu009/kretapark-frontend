@@ -21,7 +21,7 @@ function SideBar({ selectedPage, setSelectedPage }) {
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
-          fill="white"
+          fill="currentColor"
           class="bi bi-house"
           viewBox="0 0 16 16"
         >
@@ -44,7 +44,7 @@ function SideBar({ selectedPage, setSelectedPage }) {
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
-          fill="white"
+          fill="currentColor"
           class="bi bi-house"
           viewBox="0 0 16 16"
         >
@@ -66,7 +66,7 @@ function SideBar({ selectedPage, setSelectedPage }) {
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
-          fill="white"
+          fill="currentColor"
           class="bi bi-list-task"
           viewBox="0 0 16 16"
         >
@@ -95,7 +95,7 @@ function SideBar({ selectedPage, setSelectedPage }) {
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
-          fill="white"
+          fill="currentColor"
           class="bi bi-cloud-upload"
           viewBox="0 0 16 16"
         >
@@ -122,7 +122,7 @@ function SideBar({ selectedPage, setSelectedPage }) {
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
-          fill="white"
+          fill="currentColor"
           class="bi bi-calendar3"
           viewBox="0 0 16 16"
         >
@@ -143,7 +143,7 @@ function SideBar({ selectedPage, setSelectedPage }) {
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="25"
-          fill="white"
+          fill="currentColor"
           class="bi bi-chat-dots"
           viewBox="0 0 16 16"
         >

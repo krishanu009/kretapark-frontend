@@ -409,7 +409,7 @@ function PostScheduleView() {
       <div className="mainView">
         <Row>
           <Col lg="2">
-            <span style={{ color: "white", fontSize: "30px" }}>
+            <span className="titleText">
               Content Board
             </span>
           </Col>
@@ -427,7 +427,7 @@ function PostScheduleView() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                fill="white"
+                fill="currentColor"
                 class="bi bi-hourglass-top"
                 viewBox="0 0 16 16"
               >
@@ -442,7 +442,7 @@ function PostScheduleView() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                fill="white"
+                fill="currentColor"
                 class="bi bi-hourglass-split"
                 viewBox="0 0 16 16"
               >
