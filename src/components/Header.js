@@ -63,7 +63,7 @@ export default function Header() {
             )}
           </Button>
           <Button
-            variant="dark"
+            className="lightButton"
             style={{ float: "right", marginTop: "10px" }}
             onClick={logoutAction}
           >

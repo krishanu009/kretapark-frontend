@@ -36,6 +36,7 @@ function App() {
       document.documentElement.style.setProperty("--border-color","rgb(68,76,86)");
       document.documentElement.style.setProperty("--highlight-color","#444C56");
       document.documentElement.style.setProperty("--third-color","rgb(68,76,86)");
+      document.documentElement.style.setProperty("--chat-window","rgb(35, 32, 40)");
 
     }
     else if(theme === 'light')
@@ -46,6 +47,7 @@ function App() {
       document.documentElement.style.setProperty("--border-color","rgb(208,215,222)");
       document.documentElement.style.setProperty("--highlight-color","rgb(204, 206, 208)");
       document.documentElement.style.setProperty("--third-color","white");
+      document.documentElement.style.setProperty("--chat-window","rgb(242,238,231)");
     }
     const rootStyles = getComputedStyle(document.documentElement);
     const bgColor = rootStyles.getPropertyValue("--main-color");

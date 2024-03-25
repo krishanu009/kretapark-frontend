@@ -1,5 +1,5 @@
 import "../styling/postScheduleView.css";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Form } from "react-bootstrap";
@@ -8,8 +8,10 @@ import Modal from "react-bootstrap/Modal";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 import Badge from "react-bootstrap/Badge";
-
+import { ThemeContext } from "../context/ThemeContext";
 function PostScheduleView() {
+
+  const { theme, setTheme } = useContext(ThemeContext);
   const [allContent, setAllContent] = useState([]);
   const [scheduledContent, setScheduledContent] = useState([]);
   const [availableUsers, setAvailableUsers] = useState([
@@ -305,7 +307,7 @@ function PostScheduleView() {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} data-bs-theme="dark">
+      <Modal show={show} onHide={handleClose} data-bs-theme={theme} >
         <Modal.Header closeButton>
           <Modal.Title>Content</Modal.Title>
         </Modal.Header>

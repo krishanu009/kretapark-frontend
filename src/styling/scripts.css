@@ -6,6 +6,8 @@
     float: left;
     margin: 10px;
     cursor: pointer;
+    border: 1px solid var(--text-color);
+    box-shadow: #282828;
 }
 /* .docThumbnail:hover
 {
@@ -24,9 +26,10 @@
 }
 .docText
 {
-    margin: 5px;
+    margin: 7px;
     text-overflow: ellipsis;
     font-size: small;
+    color: #373636;
 }
 .newDoc
 {
@@ -58,6 +61,7 @@
 .script-container
 {
     margin-top: 105px;
+    color: var(--text-color);
 }
 #textContainer
 {

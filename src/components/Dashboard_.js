@@ -45,7 +45,7 @@ const getUser = () => {
   });
 };
 
-    const [selectedPage, setSelectedPage] = useState(constants.PAGES.CALENDERVIEW);
+    const [selectedPage, setSelectedPage] = useState(constants.PAGES.POST_VIEW);
     const [scripId,setScriptId] = useState();
     const backClick = () =>{
       setSelectedPage(constants.PAGES.SCRIPTS);

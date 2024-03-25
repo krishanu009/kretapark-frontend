@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Form } from "react-bootstrap";
@@ -8,8 +8,10 @@ import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { ThemeContext } from "../context/ThemeContext";
 function ChatRoom({ user }) {
   // console.log("user", user);
+  const { theme, setTheme } = useContext(ThemeContext);
   const messagesContainerRef = useRef(null);
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState();
@@ -24,7 +26,6 @@ function ChatRoom({ user }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [newMemMessage, setNewMemMessage] = useState("");
   useEffect(() => {
-    
     if (!socket) return;
     socket.on("receive_message", (data) => {
       console.log("receive_message", data);
@@ -228,7 +229,7 @@ function ChatRoom({ user }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} data-bs-theme="dark">
+      <Modal show={show} onHide={handleClose} data-bs-theme={theme}>
         <Modal.Header closeButton>
           <Modal.Title>New Chanel</Modal.Title>
         </Modal.Header>
@@ -255,7 +256,7 @@ function ChatRoom({ user }) {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showNewMem} onHide={handleCloseNewMem} data-bs-theme="dark">
+      <Modal show={showNewMem} onHide={handleCloseNewMem} data-bs-theme={theme}>
         <Modal.Header closeButton>
           <Modal.Title>New Member</Modal.Title>
         </Modal.Header>
@@ -284,7 +285,7 @@ function ChatRoom({ user }) {
       <Row>
         <Col lg="3" className="chat-sideBar">
           <div className="newChanelButtonDiv">
-            <Button onClick={handleShow} variant="dark">
+            <Button onClick={handleShow} className="button">
               {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +301,7 @@ function ChatRoom({ user }) {
               NEW CHANEL
             </Button>
           </div>
-          <div className="chanelList ">
+          <div className="chanelList">
             <br></br>
             {messageRooms.map((item, index) => (
               <div
@@ -324,8 +325,11 @@ function ChatRoom({ user }) {
 
               <Col lg="1">
                 <div className="participantsIcon">
-                  <Dropdown data-bs-theme="dark">
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      className="addMemberButton"
+                      id="dropdown-basic"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -338,14 +342,16 @@ function ChatRoom({ user }) {
                       </svg>
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
+                    <Dropdown.Menu className="addMemberButton">
                       {roomMembers.map((item, index) => (
-                        <Dropdown.Item key={index}>{item.name}</Dropdown.Item>
+                        <Dropdown.Item className="addMemberButton" key={index}>
+                          {item.name}
+                        </Dropdown.Item>
                       ))}
 
                       {/* onClick={()=>{
                   setShowNewMem(true) */}
-                      <Dropdown.Item>
+                      <Dropdown.Item className="addMemberButton">
                         <div
                           onClick={() => {
                             setShowNewMem(true);
@@ -399,34 +405,52 @@ function ChatRoom({ user }) {
           </div>
 
           <div className="writeMessage">
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-                data-bs-theme="dark"
-              >
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={message}
-                  onChange={(e) => {
-                    setMessage(e.target.value);
-                  }}
-                />
-              </Form.Group>
-            </Form>
-          </div>
-          <div className="sendButton" onClick={sendMessage}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              fill="white"
-              class="bi bi-send"
-              viewBox="0 0 16 16"
-            >
-              <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
-            </svg>
+            <Row>
+              <Col lg="10">
+                <Form>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlTextarea1"
+                    data-bs-theme={theme}
+                  >
+                    <Form.Control
+                      as="textarea"
+                      rows={1}
+                      value={message}
+                      onChange={(e) => {
+                        setMessage(e.target.value);
+                      }}
+                    />
+                  </Form.Group>
+                </Form>
+              </Col>
+              <Col lg="2">
+              <Button variant="success"> 
+              <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="white"
+                    class="bi bi-send"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                  </svg>
+              </Button>
+                {/* <div className="sendButton" onClick={sendMessage}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="50"
+                    height="50"
+                    fill="white"
+                    class="bi bi-send"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                  </svg>
+                </div> */}
+              </Col>
+            </Row>
           </div>
         </Col>
       </Row>
