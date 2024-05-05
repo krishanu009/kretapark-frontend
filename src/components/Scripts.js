@@ -34,7 +34,7 @@ function Scripts({ selectedPage, setSelectedPage, setScriptId }) {
               xmlns="http://www.w3.org/2000/svg"
               width="200"
               height="200"
-              fill="white"
+              fill="currentColor"
               class="bi bi-file-earmark-plus newDoc"
               viewBox="0 0 16 16"
             >

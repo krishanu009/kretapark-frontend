@@ -2,8 +2,8 @@
 /* padding-top: 200px; */
     /* height: 100dvh; */
     /* max-height: 100dvh; */
-    border-left: 2px solid rgb(68,76,86);
-    background-color: rgb(35, 32, 40);
+    border-left: 2px solid var(--border-color);
+    background-color: var(--chat-window);
     overflow-y: hidden;
     padding-left: 0 !important;
 }
@@ -12,8 +12,11 @@
     padding-top: 87px; 
 }
 .modal-content {
-    background-color: rgb(34,39,46) !important;
-    color: #9b9797 !important;
+    background-color: var(--second-color) !important;
+    /* background-color: rgb(34,39,46) !important; */
+    /* color: #9b9797 !important; */
+    color: var(--text-color) !important;
+    
     border: var(--bs-modal-border-width) solid rgb(34 38 43);
   }
   .modal-header {
@@ -21,6 +24,16 @@
   }
   .modal-footer {
     border-top: none !important;;
+  }
+  .button {
+    background-color: var(--second-color);
+    color: var(--text-color);
+  }
+  .addMemberButton
+  {
+    color: var(--text-color) !important;
+    background-color: var(--highlight-color) !important;
+    border: none !important;
   }
 .chanelList
 {
@@ -33,13 +46,14 @@
 }
 .chanelSelected
 {
-    color:azure;
+    /* color:azure; */
+    color:var(--text-color);
 }
 .messagesShow
 {
     padding-top: 87px;
     padding-bottom: 136px;
-    height: 79dvh; /* Set a maximum height */
+    height: 72dvh; /* Set a maximum height */
     overflow-y: auto;
     padding-left: 10px;
 }
@@ -48,9 +62,9 @@
     padding-top: 67px;
     height: 110px;
     width: 100%;
-    background-color: rgb(35, 32, 40);
+    background-color: var(--chat-window);
     margin: 0px;
-    border-bottom: 2px solid rgb(68,76,86);
+    border-bottom: 2px solid var(--border-color);
 }
 .participantsIcon
 {
@@ -100,20 +114,24 @@
 }
 .writeMessage
 {
-    position: fixed;
+    /* position: fixed;
     top: 591px;
-    width:55%;
-    left: 485px;
+    left: 485px; */
+    /* width:70%; */
+    border-top: 1px solid var(--border-color);
+    background-color: var(--second-color);
+    padding: 10px;
+    
     
 
 }
 .sendButton
 {
-    position: fixed;
+    /* position: fixed;
     top: 607px;
-    left: 1350px;
+    left: 1350px; */
     cursor: pointer;
-    z-index: 6;
+    /* z-index: 6; */
 }
 .sendButton:hover
 {

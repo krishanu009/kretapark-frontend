@@ -1,5 +1,5 @@
 import "../styling/postScheduleView.css";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Form } from "react-bootstrap";
@@ -8,8 +8,10 @@ import Modal from "react-bootstrap/Modal";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 import Badge from "react-bootstrap/Badge";
+import { ThemeContext } from "../context/ThemeContext";
+function PostScheduleView({userInfo}) {
 
-function PostScheduleView() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [allContent, setAllContent] = useState([]);
   const [scheduledContent, setScheduledContent] = useState([]);
   const [availableUsers, setAvailableUsers] = useState([
@@ -44,15 +46,33 @@ function PostScheduleView() {
     getAllPost();
   }, []);
   useEffect(() => {
+    getAllPost();
+  }, [userInfo]);
+  useEffect(() => {
     filterByStatus();
 
     // filterScheduledAndNotScheduled();
     // fetchInfoOnDate(date.toDateString());
   }, [allContent]);
+  function isEmptyObject(obj) {
+    
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            return false; 
+        }
+    }
+    return true; // Object is empty
+}
 
   const getAllPost = async () => {
+    console.log("post user info",userInfo);
+    console.log("post user info empt",isEmptyObject(userInfo));
+    if(isEmptyObject(userInfo)) return;
+    console.log("post user info last login",userInfo.user.lastLogin);
+   
+
     await axios
-      .get(process.env.REACT_APP_GET_ALL_POST, {
+      .get(process.env.REACT_APP_GET_ALL_POST + "/" + userInfo.user.lastLogin, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
@@ -182,6 +202,7 @@ function PostScheduleView() {
     }
 
     if (editMode) {
+      
       let payload = {
         _id: editId,
         title: taskTitle,
@@ -189,6 +210,7 @@ function PostScheduleView() {
         scriptId: selectedScriptId,
         status: status,
         assigned: allAssigned,
+        companyId:userInfo.user.lastLogin
       };
       updatePost(payload);
 
@@ -209,6 +231,7 @@ function PostScheduleView() {
         date: new Date(),
         status: status,
         assigned: allAssigned,
+        companyId:userInfo.user.lastLogin
       };
       await axios
         .post(process.env.REACT_APP_CREATE_NEW_POST, payload, {
@@ -305,7 +328,7 @@ function PostScheduleView() {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} data-bs-theme="dark">
+      <Modal show={show} onHide={handleClose} data-bs-theme={theme} >
         <Modal.Header closeButton>
           <Modal.Title>Content</Modal.Title>
         </Modal.Header>
@@ -409,7 +432,7 @@ function PostScheduleView() {
       <div className="mainView">
         <Row>
           <Col lg="2">
-            <span style={{ color: "white", fontSize: "30px" }}>
+            <span className="titleText">
               Content Board
             </span>
           </Col>
@@ -427,7 +450,7 @@ function PostScheduleView() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                fill="white"
+                fill="currentColor"
                 class="bi bi-hourglass-top"
                 viewBox="0 0 16 16"
               >
@@ -442,7 +465,7 @@ function PostScheduleView() {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                fill="white"
+                fill="currentColor"
                 class="bi bi-hourglass-split"
                 viewBox="0 0 16 16"
               >
