@@ -50,6 +50,7 @@ function ChatRoom({ user }) {
       })
       .then((res) => {
         //  setAllScript(res.data);
+        if(!res.data.length) return;
         setmessageRooms(res.data);
         setMessageRoomId(res.data[0]._id || "");
         setRoomMembers(res.data[0].members || []);

@@ -9,7 +9,7 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import Badge from "react-bootstrap/Badge";
 import { ThemeContext } from "../context/ThemeContext";
-function PostScheduleView() {
+function PostScheduleView({userInfo}) {
 
   const { theme, setTheme } = useContext(ThemeContext);
   const [allContent, setAllContent] = useState([]);
@@ -46,15 +46,33 @@ function PostScheduleView() {
     getAllPost();
   }, []);
   useEffect(() => {
+    getAllPost();
+  }, [userInfo]);
+  useEffect(() => {
     filterByStatus();
 
     // filterScheduledAndNotScheduled();
     // fetchInfoOnDate(date.toDateString());
   }, [allContent]);
+  function isEmptyObject(obj) {
+    
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            return false; 
+        }
+    }
+    return true; // Object is empty
+}
 
   const getAllPost = async () => {
+    console.log("post user info",userInfo);
+    console.log("post user info empt",isEmptyObject(userInfo));
+    if(isEmptyObject(userInfo)) return;
+    console.log("post user info last login",userInfo.user.lastLogin);
+   
+
     await axios
-      .get(process.env.REACT_APP_GET_ALL_POST, {
+      .get(process.env.REACT_APP_GET_ALL_POST + "/" + userInfo.user.lastLogin, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
@@ -184,6 +202,7 @@ function PostScheduleView() {
     }
 
     if (editMode) {
+      
       let payload = {
         _id: editId,
         title: taskTitle,
@@ -191,6 +210,7 @@ function PostScheduleView() {
         scriptId: selectedScriptId,
         status: status,
         assigned: allAssigned,
+        companyId:userInfo.user.lastLogin
       };
       updatePost(payload);
 
@@ -211,6 +231,7 @@ function PostScheduleView() {
         date: new Date(),
         status: status,
         assigned: allAssigned,
+        companyId:userInfo.user.lastLogin
       };
       await axios
         .post(process.env.REACT_APP_CREATE_NEW_POST, payload, {
