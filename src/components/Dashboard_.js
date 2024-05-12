@@ -156,6 +156,7 @@ function Dashboard_() {
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
               setScriptId={setScriptId}
+              userInfo = {userInfo}
             ></Scripts>
           )}
           {selectedPage === constants.PAGES.TEXT_EDITOR && (
@@ -163,6 +164,7 @@ function Dashboard_() {
               scripId={scripId}
               title={title}
               setTitle={setTitle}
+              userInfo ={userInfo}
             ></TextEditor>
           )}
           {selectedPage === constants.PAGES.POST_VIEW && (

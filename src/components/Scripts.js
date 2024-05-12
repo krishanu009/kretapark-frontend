@@ -5,18 +5,39 @@ import constants from "../constants.json";
 import { useState } from "react";
 import {v4 as uuidV4 } from "uuid"
 import axios from "axios";
-function Scripts({ selectedPage, setSelectedPage, setScriptId }) {
+function Scripts({ selectedPage, setSelectedPage, setScriptId,userInfo }) {
   const [allScript,setAllScript] = useState([]);
  
+  // useEffect( ()=>{
+  //    axios.get(process.env.REACT_APP_GET_ALL_SCRIPT, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+  //   .then((res) => {
+  //     setAllScript(res.data);
+  //     console.log("all script",res.data);
+  //   }).catch((e) => {
+  //     console.log(e);
+  //   })
+  // },[]);
   useEffect( ()=>{
-     axios.get(process.env.REACT_APP_GET_ALL_SCRIPT, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
-    .then((res) => {
-      setAllScript(res.data);
-      console.log("all script",res.data);
-    }).catch((e) => {
-      console.log(e);
-    })
-  },[]);
+    if(!userInfo.user.lastLogin) return;
+    axios.get(process.env.REACT_APP_GET_SCRIPTS_BY_TEAMID + '/' + userInfo.user.lastLogin, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+   .then((res) => {
+     setAllScript(res.data);
+     console.log("all script",res.data);
+   }).catch((e) => {
+     console.log(e);
+   })
+ },[]);
+
+ useEffect( ()=>{
+  if(!userInfo.user.lastLogin) return;
+  axios.get(process.env.REACT_APP_GET_SCRIPTS_BY_TEAMID + '/' + userInfo.user.lastLogin, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+ .then((res) => {
+   setAllScript(res.data);
+   console.log("all script",res.data);
+ }).catch((e) => {
+   console.log(e);
+ })
+},[userInfo]);
 
 
   const handleClick =() =>{
