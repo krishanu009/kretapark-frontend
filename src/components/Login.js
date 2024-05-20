@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import "../styling/register.css";
 import axios from 'axios';
 import {Link, Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom"
+import { ThemeContext } from "../context/ThemeContext";
 
  
 function Login() {
@@ -14,7 +15,10 @@ function Login() {
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorText, setErrorText] = useState("");
- 
+    const { theme, setTheme } = useContext(ThemeContext);
+ useEffect(() => {
+  fetchAndSetLocalData();
+ },[])
 
     
     const loginAction = (event) => {
@@ -23,7 +27,7 @@ function Login() {
             "email":email,
             "password":password
           }
-          console.log(payload);
+          //console.log(payload);
       
       setIsSubmitting(true)
       setErrorText('');
@@ -32,6 +36,7 @@ function Login() {
         setIsSubmitting(false);
         console.log("y",res.data);
         localStorage.setItem('token', res.data.accesToken)
+        
         navigate("/dashboard");
       }).catch((e)=> {
         setIsSubmitting(false);
@@ -40,6 +45,16 @@ function Login() {
         setErrorText(e.response.data.message);
       })
     };
+
+    const fetchAndSetLocalData = () => {
+      let localInfo = JSON.parse(localStorage.getItem('userInfo'));
+       if(localInfo)
+        {
+          console.log("localinfo",localInfo);
+          setTheme(localInfo.theme);
+  
+        }
+    }
   return (
     <div class="container">
     <div className='loginCard'>

@@ -9,8 +9,7 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import Badge from "react-bootstrap/Badge";
 import { ThemeContext } from "../context/ThemeContext";
-function PostScheduleView({userInfo}) {
-
+function PostScheduleView({ userInfo, setLoading }) {
   const { theme, setTheme } = useContext(ThemeContext);
   const [allContent, setAllContent] = useState([]);
   const [scheduledContent, setScheduledContent] = useState([]);
@@ -43,33 +42,44 @@ function PostScheduleView({userInfo}) {
     getAllScript();
   }, []);
   useEffect(() => {
-    getAllPost();
+    const fetchPost = async () => {
+      setLoading(true);
+      await getAllPost();
+      setLoading(true);
+    };
+    fetchPost();
   }, []);
   useEffect(() => {
-    getAllPost();
+    const fetchPost = async () => {
+      setLoading(true);
+      await getAllPost();
+      setLoading(true);
+    };
+    fetchPost();
   }, [userInfo]);
   useEffect(() => {
-    filterByStatus();
+    const fetchData = async () => {
+      setLoading(true);
+      await filterByStatus();
+      setLoading(false);
+    };
 
-    // filterScheduledAndNotScheduled();
-    // fetchInfoOnDate(date.toDateString());
+    fetchData();
   }, [allContent]);
   function isEmptyObject(obj) {
-    
     for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            return false; 
-        }
+      if (obj.hasOwnProperty(key)) {
+        return false;
+      }
     }
     return true; // Object is empty
-}
+  }
 
   const getAllPost = async () => {
-    console.log("post user info",userInfo);
-    console.log("post user info empt",isEmptyObject(userInfo));
-    if(isEmptyObject(userInfo)) return;
-    console.log("post user info last login",userInfo.user.lastLogin);
-   
+    console.log("post user info", userInfo);
+    console.log("post user info empt", isEmptyObject(userInfo));
+    if (isEmptyObject(userInfo)) return;
+    console.log("post user info last login", userInfo.user.lastLogin);
 
     await axios
       .get(process.env.REACT_APP_GET_ALL_POST + "/" + userInfo.user.lastLogin, {
@@ -113,7 +123,7 @@ function PostScheduleView({userInfo}) {
   //   setNotScheduledContent(newNotScheduledContent);
   // };
 
-  const filterByStatus = () => {
+  const filterByStatus = async () => {
     let newToDoContent = allContent.filter((obj) => obj["status"] === "todo");
 
     let newInProgressContent = allContent.filter(
@@ -202,7 +212,6 @@ function PostScheduleView({userInfo}) {
     }
 
     if (editMode) {
-      
       let payload = {
         _id: editId,
         title: taskTitle,
@@ -210,7 +219,7 @@ function PostScheduleView({userInfo}) {
         scriptId: selectedScriptId,
         status: status,
         assigned: allAssigned,
-        companyId:userInfo.user.lastLogin
+        companyId: userInfo.user.lastLogin,
       };
       updatePost(payload);
 
@@ -231,7 +240,7 @@ function PostScheduleView({userInfo}) {
         date: new Date(),
         status: status,
         assigned: allAssigned,
-        companyId:userInfo.user.lastLogin
+        companyId: userInfo.user.lastLogin,
       };
       await axios
         .post(process.env.REACT_APP_CREATE_NEW_POST, payload, {
@@ -313,22 +322,18 @@ function PostScheduleView({userInfo}) {
       setSelectedScriptId({ id: obj._id, name: obj.title });
     }
   };
-  const formatDate = (date) => (new Date(date).toLocaleString(
-    "en-US",
-    {
+  const formatDate = (date) =>
+    new Date(date).toLocaleString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
       hour: "numeric",
-      minute: "numeric"
-    }
-  ))
-
- 
+      minute: "numeric",
+    });
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} data-bs-theme={theme} >
+      <Modal show={show} onHide={handleClose} data-bs-theme={theme}>
         <Modal.Header closeButton>
           <Modal.Title>Content</Modal.Title>
         </Modal.Header>
@@ -432,9 +437,7 @@ function PostScheduleView({userInfo}) {
       <div className="mainView">
         <Row>
           <Col lg="2">
-            <span className="titleText">
-              Content Board
-            </span>
+            <span className="titleText">Content Board</span>
           </Col>
           <Col lg="2">
             <Button variant="primary" onClick={handleShow}>
@@ -498,7 +501,7 @@ function PostScheduleView({userInfo}) {
               onDragOver={handleDragOver}
             >
               {toDoContent.map((item, index) => {
-                 const formattedDate = formatDate(item.date);
+                const formattedDate = formatDate(item.date);
                 return (
                   <div
                     key={index}
@@ -528,9 +531,9 @@ function PostScheduleView({userInfo}) {
                         />
                       </svg>
                     </div>
-  
+
                     <div className="taskTitle">{item.title}</div>
-  
+
                     <div className="taskDate">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -558,7 +561,7 @@ function PostScheduleView({userInfo}) {
                       </svg>
                       &nbsp;{item.scriptId.name}
                     </div>
-  
+
                     <div className="assigned">
                       {item.assigned &&
                         item.assigned.map((a, i) => (
@@ -566,7 +569,7 @@ function PostScheduleView({userInfo}) {
                             {a.name}({a.role})
                           </Badge>
                         ))}
-  
+
                       {/* <Badge bg="secondary">Secondary</Badge>
               <Badge bg="success">Success</Badge>
               <Badge bg="danger">Danger</Badge>
@@ -580,7 +583,7 @@ function PostScheduleView({userInfo}) {
               <Badge bg="dark">Dark</Badge> */}
                     </div>
                   </div>
-                )
+                );
               })}
               ;
             </div>
@@ -683,77 +686,76 @@ function PostScheduleView({userInfo}) {
               onDrop={(e) => handleDrop(e, "done")}
               onDragOver={handleDragOver}
             >
-              {doneContent.map((item, index) =>  {
+              {doneContent.map((item, index) => {
                 const formattedDate = formatDate(item.date);
-                
+
                 return (
-                
-                <div
-                  key={index}
-                  className="task"
-                  draggable
-                  onDragStart={(e) => handleDrag(e, item)}
-                >
                   <div
-                    className="edit"
-                    onClick={() => {
-                      editContent(item._id);
-                    }}
+                    key={index}
+                    className="task"
+                    draggable
+                    onDragStart={(e) => handleDrag(e, item)}
                   >
-                    <svg
-                      className="editPen"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="white"
-                      class="bi bi-pencil-square"
-                      viewBox="0 0 16 16"
+                    <div
+                      className="edit"
+                      onClick={() => {
+                        editContent(item._id);
+                      }}
                     >
-                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                      <path
-                        fill-rule="evenodd"
-                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="taskTitle">{item.title}</div>
+                      <svg
+                        className="editPen"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="white"
+                        class="bi bi-pencil-square"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path
+                          fill-rule="evenodd"
+                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                        />
+                      </svg>
+                    </div>
+                    <div className="taskTitle">{item.title}</div>
 
-                  <div className="taskDate">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-calendar-check"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
-                      <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                    </svg>
-                    &nbsp;{formattedDate}
-                  </div>
-                  <div className="taskScript">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-file-earmark-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z" />
-                    </svg>
-                    &nbsp;{item.scriptId.name}
-                  </div>
-                  <div className="assigned">
-                    {item.assigned &&
-                      item.assigned.map((a, i) => (
-                        <span key={i} className="badge bg-success">
-                          {a.name}({a.role})
-                        </span>
-                      ))}
+                    <div className="taskDate">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-calendar-check"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                      </svg>
+                      &nbsp;{formattedDate}
+                    </div>
+                    <div className="taskScript">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-file-earmark-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z" />
+                      </svg>
+                      &nbsp;{item.scriptId.name}
+                    </div>
+                    <div className="assigned">
+                      {item.assigned &&
+                        item.assigned.map((a, i) => (
+                          <span key={i} className="badge bg-success">
+                            {a.name}({a.role})
+                          </span>
+                        ))}
 
-                    {/* <Badge bg="secondary">Secondary</Badge>
+                      {/* <Badge bg="secondary">Secondary</Badge>
             <Badge bg="success">Success</Badge>
             <Badge bg="danger">Danger</Badge>
             <Badge bg="warning" text="dark">
@@ -764,9 +766,10 @@ function PostScheduleView({userInfo}) {
               Light
             </Badge>
             <Badge bg="dark">Dark</Badge> */}
+                    </div>
                   </div>
-                </div>
-              )} )}
+                );
+              })}
             </div>
           </Col>
         </Row>

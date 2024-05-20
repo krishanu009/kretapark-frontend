@@ -5,20 +5,43 @@ import constants from "../constants.json";
 import { useState } from "react";
 import {v4 as uuidV4 } from "uuid"
 import axios from "axios";
-function Scripts({ selectedPage, setSelectedPage, setScriptId }) {
+function Scripts({ selectedPage, setSelectedPage, setScriptId,userInfo, setLoading }) {
   const [allScript,setAllScript] = useState([]);
  
-  useEffect( ()=>{
-     axios.get(process.env.REACT_APP_GET_ALL_SCRIPT, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
-    .then((res) => {
-      setAllScript(res.data);
-      console.log("all script",res.data);
-    }).catch((e) => {
-      console.log(e);
-    })
-  },[]);
+  // useEffect( ()=>{
+  //    axios.get(process.env.REACT_APP_GET_ALL_SCRIPT, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+  //   .then((res) => {
+  //     setAllScript(res.data);
+  //     console.log("all script",res.data);
+  //   }).catch((e) => {
+  //     console.log(e);
+  //   })
+  // },[]);
+  useEffect(  ()=>{
+    const fetchData = async () => {if(!userInfo.user) return;
+      setLoading(true);
+      await fetchScripts();
+     setLoading(false);}
+     fetchData();
+ },[]);
 
+ useEffect( ()=>{ const fetchData = async () => {if(!userInfo.user) return;
+  setLoading(true);
+  await fetchScripts();
+ setLoading(false);}
+ fetchData();
+},[userInfo]);
 
+const fetchScripts = async () => {
+  await axios.get(process.env.REACT_APP_GET_SCRIPTS_BY_TEAMID + '/' + userInfo.user.lastLogin, { headers:{Authorization: 'Bearer ' + localStorage.getItem('token')}})
+ .then((res) => {
+   setAllScript(res.data);
+   console.log("all script",res.data);
+ }).catch((e) => {
+   console.log(e);
+ })
+
+}
   const handleClick =() =>{
     setSelectedPage(constants.PAGES.TEXT_EDITOR);
     setScriptId(uuidV4());

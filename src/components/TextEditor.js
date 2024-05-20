@@ -10,7 +10,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import axios from "axios";
-function TextEditor({scripId,title,setTitle}) {
+function TextEditor({scripId,title,setTitle,userInfo}) {
   console.log("Script",scripId);
   const [localScriptId, setLocalscriptId] = useState();
   
@@ -76,7 +76,7 @@ function TextEditor({scripId,title,setTitle}) {
       quill.enable();
     })
 
-    socket.emit('get-document',scripId);
+    socket.emit('get-document',scripId,userInfo);
     console.log('fetching');
   },[socket,quill,scripId]);
 
