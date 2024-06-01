@@ -23,15 +23,31 @@
   {
     color: var(--text-color);
   }
-  .width100{
+  .width-100{
     width: 100%;
   }
+  
   .card{
     padding: 2px;
+    height: 300px;
   }
-  .teamListMain
+  .teamCard
   {
- 
+    background-color: var(--second-color);
+    padding: 5px;
+    margin: 2px;
+    width: 340px;
+    color: var(--text-color);
+
+  }
+
+  .teamCard:hover
+  {
+    
+    /* width: 350px;
+    height: */
+    cursor: pointer;
+
   }
   .currentLogin
   {
@@ -40,3 +56,28 @@
     margin-top: 10px;
     margin-bottom: 30px;
   }
+  .borderRight
+  {
+    border-right: 2px solid var(--border-color);
+    
+  }
+  .borderTop
+  {
+    border-top: 2px solid var(--border-color);
+    
+  }
+  .fullHeight
+  {
+    height: 70vh;
+  }
+  .pT-30
+  {
+    padding-top: 30px;
+  }
+  .addMemberIcon
+  {
+    color: var(--text-color);
+    padding-top: 5px;
+    cursor: pointer;
+  }
+  
