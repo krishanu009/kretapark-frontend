@@ -50,7 +50,7 @@ const fetchScripts = async () => {
   return (
     <div className="script-container">
       <Row>
-        <Col lg={2}>
+        <Col xs={6} sm={4} md={3} lg={2} >
           <div className="" onClick={handleClick}>
             <svg
              
@@ -68,7 +68,7 @@ const fetchScripts = async () => {
         </Col>
         {
           allScript.map((item) => (
-            <Col lg={2}>
+            <Col xs={6} sm={4} md={3} lg={2} >
             <div className="docThumbnail" onClick={() => {
               setScriptId(item._id); setSelectedPage(constants.PAGES.TEXT_EDITOR);
               console.log('script id',item._id)}}>
