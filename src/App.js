@@ -35,6 +35,7 @@ function App() {
       document.documentElement.style.setProperty("--text-color","rgb(255, 255, 255)");
       document.documentElement.style.setProperty("--border-color","rgb(68,76,86)");
       document.documentElement.style.setProperty("--highlight-color","#444C56");
+      // document.documentElement.style.setProperty("--highlight-color","rgb(2,100,126)");
       document.documentElement.style.setProperty("--third-color","rgb(68,76,86)");
       document.documentElement.style.setProperty("--chat-window","rgb(35, 32, 40)");
 
@@ -53,7 +54,7 @@ function App() {
     const bgColor = rootStyles.getPropertyValue("--main-color");
     document.body.style.backgroundColor = bgColor;
   }, [theme]);
-
+ 
   return (
     <>
       {/* <Row>
